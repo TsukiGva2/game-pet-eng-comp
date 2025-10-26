@@ -4,7 +4,7 @@ printf "====================CWOMPILER (tm) 🐈================\n\n"
 
 printf "FULL:: \n"
 CODE=$(cat code.lol)
-node -e "parser = require('lolcode'); parser(\`$CODE\`); process.exit()" >> a.out
+node -e "parser = require('lolcode'); parser(\`$CODE\`); process.exit()" > a.out
 
 printf "APPENDING TESTS:: \n"
 cat tests >> a.out
