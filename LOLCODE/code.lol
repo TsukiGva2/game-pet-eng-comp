@@ -215,10 +215,8 @@ HOW DUZ I PRELOAD?
 
 	LD ITZ IT
 
-	CALL LD GOT "sky"    "assets/background.png"
-	CALL LD GOT "phi"    "assets/phi.png"
-	CALL LD GOT "delta"  "assets/delta_lower.png"
-	CALL LD GOT "lambda" "assets/lambda.png"
+	CALL LD GOT "sky"    "https://i.imgur.com/Q2xS5Dn.png"
+	CALL LD GOT "lambda" "https://i.imgur.com/lsQbakJ.png"
 
 IF U SAY SO
 

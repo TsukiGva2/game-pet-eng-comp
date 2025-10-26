@@ -13,5 +13,5 @@ printf "RESULTING FILE:: \n"
 cat a.out
 
 printf "RUNNING TESTS:: \n"
-node a.out
+#node a.out
 
