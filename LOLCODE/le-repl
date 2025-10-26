@@ -1,0 +1,34 @@
+#!/bin/sh
+
+build() {
+ACC=
+while true; do
+	read -r LINE
+	if [ "$LINE" = "KTHXBYE" ] ; then
+		ACC="$ACC""$LINE"
+		printf "%s\n" "$ACC"
+		return
+	fi
+
+	ACC="$ACC""\n$LINE"
+done
+}
+
+while true; do
+	printf "🐈: "
+	read -r CODE
+	
+	case "$CODE" in
+		'KTHXBYE')
+			exit
+			;;
+		'MULTI')
+			CODE=$(build)
+			;;
+	esac
+
+	printf "OUTPUT:\n\n"
+
+	node -e "parser = require('lolcode'); parser(\`$CODE\`); process.exit()"
+done
+
