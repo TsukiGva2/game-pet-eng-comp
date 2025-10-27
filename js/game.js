@@ -130,6 +130,18 @@ var IT = undefined;
 OBJ[K]=V;
 return (IT == undefined) ? null : IT;}
 
+function FRAME(K,F){
+var IT = undefined;
+
+IT = GET("Object");
+var O = null;
+O=INVOKE(IT);
+var KEY = null;
+KEY="key";
+O[KEY]=K;
+IT = O;
+return (IT == undefined) ? null : IT;}
+
 
 
 
@@ -180,8 +192,58 @@ IT = OBJ;
 return (IT == undefined) ? null : IT;}
 
 var PLAYER = null;
+
+var ANIMATION_PLAYER = null;
+
 var CURSORS = null;
 var PLATFORM = null;
+
+var XSCALE = null;
+
+function FACERIGHT(){
+var IT = undefined;
+
+
+var X = null;
+X=(XSCALE*-1);
+
+IT = ON(PLAYER);
+IT = SET("scaleX",X);
+
+return (IT == undefined) ? null : IT;}
+
+function FACELEFT(){
+var IT = undefined;
+
+
+IT = ON(PLAYER);
+IT = SET("scaleX",XSCALE);
+
+return (IT == undefined) ? null : IT;}
+
+function DOANIMATION(ANIM){
+var IT = undefined;
+
+
+IT = ON(PLAYER);
+IT = PROP("anims");
+IT = PROP("currentAnim");
+
+IT =(IT!=undefined);
+
+if (IT){
+IT = PROP("key");
+IT =(IT!=ANIM);
+
+if (IT){
+IT = ON(PLAYER);
+IT = PROP("play");
+IT = CALL(IT,[ANIM]);
+}
+}
+
+
+return (IT == undefined) ? null : IT;}
 
 function SETUP(){
 var IT = undefined;
@@ -213,7 +275,11 @@ IT = PROP("image");
 LD=IT;
 
 IT = CALL(LD,["sky","https://i.imgur.com/Q2xS5Dn.png"]);
-IT = CALL(LD,["lambda","https://i.imgur.com/lsQbakJ.png"]);
+
+this.load.image("bot", "assets/c/idle.png")
+IT = CALL(LD,["bot1","https://i.imgur.com/LIttTKd.png"]);
+IT = CALL(LD,["bot2","https://i.imgur.com/di6ksol.png"]);
+IT = CALL(LD,["bot3","https://i.imgur.com/nGxR1J1.png"]);
 
 return (IT == undefined) ? null : IT;}
 
@@ -277,19 +343,18 @@ IT = CALL(IT,[COLOR,1]);
 
 IT = ON(G);
 IT = PROP("fillRect");
-IT = CALL(IT,[0,0,128,5]);
+IT = CALL(IT,[0,0,800,50]);
 
 IT = ON(G);
 IT = PROP("generateTexture");
-IT = CALL(IT,["platform",128,5]);
+IT = CALL(IT,["platform",800,50]);
 
 IT = ON(G);
 IT = PROP("destroy");
 IT = INVOKE(IT);
 
 
-P1=DRAW_PLATFORM(this,55,10,128,5);
-P2=DRAW_PLATFORM(this,0,0,128,5);
+P1=DRAW_PLATFORM(this,0,480,800,50);
 
 IT = ON(PLATFORM);
 IT = PROP("add");
@@ -297,17 +362,20 @@ var P = null;
 P=IT;
 
 IT = CALL(P,[P1]);
-IT = CALL(P,[P2]);
 
 IT = ON(this);
 IT = PROP("physics");
 IT = HOP("add");
-IT = PROP("image");
-PLAYER=CALL(IT,[100,450,"lambda"]);
+IT = PROP("sprite");
+PLAYER=CALL(IT,[100,0,"bot"]);
 
 IT = ON(PLAYER);
 IT = PROP("setBounce");
 IT = CALL(IT,[0.2]);
+
+IT = ON(PLAYER);
+IT = PROP("setScale");
+IT = CALL(IT,[0.08]);
 
 IT = ON(PLAYER);
 IT = PROP("setCollideWorldBounds");
@@ -329,6 +397,43 @@ var C = null;
 C=IT;
 
 IT = CALL(C,[PLAYER,PLATFORM]);
+
+var FRAMES = null;
+FRAMES=[FRAME("bot1",0),FRAME("bot2",1),FRAME("bot3",2)];
+
+var WALK = null;
+IT = CREATE();
+IT = FIELD("key","walk");
+IT = FIELD("frames",FRAMES);
+IT = FIELD("frameRate",8);
+IT = FIELD("repeat",-1);
+WALK=OBJ;
+
+var IDLE = null;
+IT = CREATE();
+IT = FIELD("key","idle");
+IT = FIELD("frames",[FRAME("bot",0)]);
+IT = FIELD("frameRate",0);
+IT = FIELD("repeat",1);
+IDLE=OBJ;
+
+IT = ON(this);
+IT = HOP("anims");
+IT = PROP("create");
+IT = CALL(IT,[WALK]);
+
+IT = ON(this);
+IT = HOP("anims");
+IT = PROP("create");
+IT = CALL(IT,[IDLE]);
+
+IT = ON(PLAYER);
+IT = PROP("play");
+IT = CALL(IT,["idle"]);
+
+IT = ON(PLAYER);
+IT = PROP("scaleX");
+XSCALE=IT;
 
 return (IT == undefined) ? null : IT;}
 
@@ -368,17 +473,26 @@ IT = PROP("isDown");
 UP=IT;
 
 IT = ON(PLAYER);
+IT = PROP("play");
+var ANIMATE = null;
+ANIMATE=IT;
 
 IT = LEFT;
 
 if (IT){
 IT = CALL(PDX,[-160]);
+IT = DOANIMATION("walk");
+IT = FACELEFT();
 } else if(RIGHT){
 IT = CALL(PDX,[160]);
+IT = DOANIMATION("walk");
+IT = FACERIGHT();
 } else {
 IT = CALL(PDX,[0]);
+IT = DOANIMATION("idle");
 }
 
+IT = ON(PLAYER);
 IT = PROP("body");
 IT = PROP("touching");
 IT = PROP("down");

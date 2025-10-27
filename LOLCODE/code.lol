@@ -141,6 +141,14 @@ BTW ================OBJETOS=====================
 		OBJ!K ITZ V
 	IF U SAY SO
 
+	HOW DUZ I FRAME YR K F?
+		GET "Object"
+		I HAS A O ITZ INVOKE IT
+		I HAS A KEY ITZ "key"
+		O!KEY ITZ K
+		O
+	IF U SAY SO
+
 BTW ============================================
 
 BTW ================SETUP=======================
@@ -189,8 +197,49 @@ HOW DUZ I BUILD?
 IF U SAY SO
 
 I HAS A PLAYER
+
+I HAS A ANIMATION_PLAYER
+
 I HAS A CURSORS
 I HAS A PLATFORM
+
+I HAS A XSCALE
+
+HOW DUZ I FACERIGHT?
+
+	I HAS A X ITZ PRODUKT OF XSCALE -1
+
+	ON PLAYER
+		SET "scaleX" X
+
+IF U SAY SO
+
+HOW DUZ I FACELEFT
+
+	ON PLAYER
+		SET "scaleX" XSCALE
+
+IF U SAY SO
+
+HOW DUZ I DOANIMATION ANIM?
+
+	ON PLAYER
+		PROP "anims"
+		PROP "currentAnim"
+
+	DIFFRINT IT undefined, O RLY?
+	YA RLY
+		PROP "key"
+		DIFFRINT IT ANIM, O RLY?
+		YA RLY
+			ON PLAYER
+				PROP "play"
+				CALL IT GOT ANIM
+		OIC
+	OIC
+			
+
+IF U SAY SO
 
 HOW DUZ I SETUP
 
@@ -215,8 +264,12 @@ HOW DUZ I PRELOAD?
 
 	LD ITZ IT
 
-	CALL LD GOT "sky"    "https://i.imgur.com/Q2xS5Dn.png"
-	CALL LD GOT "lambda" "https://i.imgur.com/lsQbakJ.png"
+	CALL LD GOT "sky"  "https://i.imgur.com/Q2xS5Dn.png"
+
+	CALL LD GOT "bot"  "https://i.imgur.com/yCxaJGW.png"
+	CALL LD GOT "bot1" "https://i.imgur.com/LIttTKd.png"
+	CALL LD GOT "bot2" "https://i.imgur.com/di6ksol.png"
+	CALL LD GOT "bot3" "https://i.imgur.com/nGxR1J1.png"
 
 IF U SAY SO
 
@@ -274,37 +327,39 @@ HOW DUZ I CREATEGAME?
 
 		ON G
 			PROP "fillRect"
-			CALL IT GOT 0 0 128 5
+			CALL IT GOT 0 0 800 50
 
 		ON G
 			PROP "generateTexture"
-			CALL IT GOT "platform" 128 5
+			CALL IT GOT "platform" 800 50
 
 		ON G
 			PROP "destroy"
 			INVOKE IT
 	BTW ==================================
 
-	P1 ITZ DRAW_PLATFORM this 55 10 128 5
-	P2 ITZ DRAW_PLATFORM this  0  0 128 5
+	P1 ITZ DRAW_PLATFORM this 0 480 800 50
 
 	ON PLATFORM
 		PROP "add"
 	I HAS A P ITZ IT
 
 	CALL P GOT P1
-	CALL P GOT P2
 
 	ON this
 		PROP "physics"
 		HOP  "add"
-		PROP "image"
+		PROP "sprite"
 		PLAYER ITZ\
-			CALL IT GOT 100 450 "lambda"
+			CALL IT GOT 100 0 "bot"
 
 	ON PLAYER
 		PROP "setBounce"
 		CALL IT GOT 0.2
+
+	ON PLAYER
+		PROP "setScale"
+		CALL IT GOT 0.08
 
 	ON PLAYER
 		PROP "setCollideWorldBounds"
@@ -325,6 +380,45 @@ HOW DUZ I CREATEGAME?
 	I HAS A C ITZ IT
 
 	CALL C GOT PLAYER PLATFORM
+
+	I HAS A FRAMES ITZ GOT\
+		FRAME "bot1" 0\
+		FRAME "bot2" 1\
+		FRAME "bot3" 2
+
+	I HAS A WALK
+		CREATE
+			FIELD "key" "walk"
+			FIELD "frames" FRAMES
+			FIELD "frameRate" 8
+			FIELD "repeat" -1
+	WALK ITZ OBJ
+
+	I HAS A IDLE
+		CREATE
+			FIELD "key" "idle"
+			FIELD "frames" GOT FRAME "bot" 0
+			FIELD "frameRate" 0
+			FIELD "repeat" 1
+	IDLE ITZ OBJ
+
+	ON this
+		HOP "anims"
+		PROP "create"
+		CALL IT GOT WALK
+
+	ON this
+		HOP "anims"
+		PROP "create"
+		CALL IT GOT IDLE
+
+	ON PLAYER
+		PROP "play"
+		CALL IT GOT "idle"
+
+	ON PLAYER
+		PROP "scaleX"
+		XSCALE ITZ IT
 
 IF U SAY SO
 
@@ -362,16 +456,24 @@ HOW DUZ I UPDATE
 		UP ITZ IT
 
 	ON PLAYER
+		PROP "play"
+		I HAS A ANIMATE ITZ IT
 
 		LEFT, O RLY?
 		YA RLY
 			CALL PDX GOT -160
+			DOANIMATION "walk"
+			FACELEFT
 		MEBBE RIGHT
 			CALL PDX GOT  160
+			DOANIMATION "walk"
+			FACERIGHT
 		NO WAI
 			CALL PDX GOT    0
+			DOANIMATION "idle"
 		OIC
 
+	ON PLAYER
 		PROP "body"
 		PROP "touching"
 		PROP "down"
