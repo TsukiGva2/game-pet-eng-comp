@@ -159,7 +159,7 @@ GRAVITY=OBJ;
 
 var ARCADE = null;
 IT = CREATE();
-IT = FIELD("debug",false);
+IT = FIELD("debug",true);
 IT = FIELD("gravity",GRAVITY);
 ARCADE=OBJ;
 
@@ -200,24 +200,23 @@ var PLATFORM = null;
 
 var XSCALE = null;
 
-function FACERIGHT(){
-var IT = undefined;
-
-
-var X = null;
-X=(XSCALE*-1);
-
-IT = ON(PLAYER);
-IT = SET("scaleX",X);
-
-return (IT == undefined) ? null : IT;}
+var SCENE = null;
 
 function FACELEFT(){
 var IT = undefined;
 
 
 IT = ON(PLAYER);
-IT = SET("scaleX",XSCALE);
+IT = SET("flipX",true);
+
+return (IT == undefined) ? null : IT;}
+
+function FACERIGHT(){
+var IT = undefined;
+
+
+IT = ON(PLAYER);
+IT = SET("flipX",false);
 
 return (IT == undefined) ? null : IT;}
 
@@ -274,12 +273,14 @@ IT = PROP("image");
 
 LD=IT;
 
-IT = CALL(LD,["sky","https://i.imgur.com/Q2xS5Dn.png"]);
+IT = CALL(LD,["sky","assets/sky.jpeg"]);
 
-IT = CALL(LD,["bot","https://i.imgur.com/yCxaJGW.png"]);
-IT = CALL(LD,["bot1","https://i.imgur.com/LIttTKd.png"]);
-IT = CALL(LD,["bot2","https://i.imgur.com/di6ksol.png"]);
-IT = CALL(LD,["bot3","https://i.imgur.com/nGxR1J1.png"]);
+IT = CALL(LD,["idle","assets/c/idle.png"]);
+IT = CALL(LD,["walk1","assets/c/walk1.png"]);
+IT = CALL(LD,["walk2","assets/c/walk2.png"]);
+IT = CALL(LD,["walk3","assets/c/walk3.png"]);
+IT = CALL(LD,["walk4","assets/c/walk4.png"]);
+IT = CALL(LD,["walk5","assets/c/walk5.png"]);
 
 return (IT == undefined) ? null : IT;}
 
@@ -311,6 +312,8 @@ var IT = undefined;
 
 
 
+
+SCENE=this;
 
 IT = ON(this);
 IT = HOP("add");
@@ -367,7 +370,7 @@ IT = ON(this);
 IT = PROP("physics");
 IT = HOP("add");
 IT = PROP("sprite");
-PLAYER=CALL(IT,[100,0,"bot"]);
+PLAYER=CALL(IT,[100,0,"idle"]);
 
 IT = ON(PLAYER);
 IT = PROP("setBounce");
@@ -399,7 +402,7 @@ C=IT;
 IT = CALL(C,[PLAYER,PLATFORM]);
 
 var FRAMES = null;
-FRAMES=[FRAME("bot1",0),FRAME("bot2",1),FRAME("bot3",2)];
+FRAMES=[FRAME("walk1",0),FRAME("walk2",1),FRAME("walk3",2),FRAME("walk4",3),FRAME("walk5",4)];
 
 var WALK = null;
 IT = CREATE();
@@ -412,7 +415,7 @@ WALK=OBJ;
 var IDLE = null;
 IT = CREATE();
 IT = FIELD("key","idle");
-IT = FIELD("frames",[FRAME("bot",0)]);
+IT = FIELD("frames",[FRAME("idle",0)]);
 IT = FIELD("frameRate",0);
 IT = FIELD("repeat",1);
 IDLE=OBJ;

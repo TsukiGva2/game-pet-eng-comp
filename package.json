@@ -1,0 +1,19 @@
+{
+  "name": "game-phipsi",
+  "version": "1.0.0",
+  "description": "Bem-vindo ao projeto base da nossa **Game Jam**! Este template foi desenvolvido em **Phaser 3 (versão 3.85)** e serve como um ponto de partida rápido e robusto para o seu jogo.",
+  "scripts": {
+    "play": "npx http-server ./ -c-1 -o",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TsukiGva2/game-pet-eng-comp.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TsukiGva2/game-pet-eng-comp/issues"
+  },
+  "homepage": "https://github.com/TsukiGva2/game-pet-eng-comp#readme"
+}

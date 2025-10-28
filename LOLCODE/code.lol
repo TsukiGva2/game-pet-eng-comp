@@ -164,7 +164,7 @@ HOW DUZ I BUILD?
 
 	I HAS A ARCADE
 		CREATE
-			FIELD "debug"   FAIL
+			FIELD "debug"   WIN
 			FIELD "gravity" GRAVITY
 	ARCADE ITZ OBJ
 
@@ -205,19 +205,19 @@ I HAS A PLATFORM
 
 I HAS A XSCALE
 
-HOW DUZ I FACERIGHT?
+I HAS A SCENE
 
-	I HAS A X ITZ PRODUKT OF XSCALE -1
+HOW DUZ I FACELEFT?
 
 	ON PLAYER
-		SET "scaleX" X
+		SET "flipX" WIN
 
 IF U SAY SO
 
-HOW DUZ I FACELEFT
+HOW DUZ I FACERIGHT?
 
 	ON PLAYER
-		SET "scaleX" XSCALE
+		SET "flipX" FAIL
 
 IF U SAY SO
 
@@ -264,12 +264,14 @@ HOW DUZ I PRELOAD?
 
 	LD ITZ IT
 
-	CALL LD GOT "sky"  "https://i.imgur.com/Q2xS5Dn.png"
+	CALL LD GOT "sky"  "assets/sky.jpeg"
 
-	CALL LD GOT "bot"  "https://i.imgur.com/yCxaJGW.png"
-	CALL LD GOT "bot1" "https://i.imgur.com/LIttTKd.png"
-	CALL LD GOT "bot2" "https://i.imgur.com/di6ksol.png"
-	CALL LD GOT "bot3" "https://i.imgur.com/nGxR1J1.png"
+	CALL LD GOT "idle"  "assets/c/idle.png"
+	CALL LD GOT "walk1" "assets/c/walk1.png"
+	CALL LD GOT "walk2" "assets/c/walk2.png"
+	CALL LD GOT "walk3" "assets/c/walk3.png"
+	CALL LD GOT "walk4" "assets/c/walk4.png"
+	CALL LD GOT "walk5" "assets/c/walk5.png"
 
 IF U SAY SO
 
@@ -297,6 +299,8 @@ IF U SAY SO
 HOW DUZ I CREATEGAME?
 
 	BTW Criando os objetos do jogo
+
+	SCENE ITZ this
 
 	ON this
 		HOP  "add"
@@ -351,7 +355,7 @@ HOW DUZ I CREATEGAME?
 		HOP  "add"
 		PROP "sprite"
 		PLAYER ITZ\
-			CALL IT GOT 100 0 "bot"
+			CALL IT GOT 100 0 "idle"
 
 	ON PLAYER
 		PROP "setBounce"
@@ -382,9 +386,11 @@ HOW DUZ I CREATEGAME?
 	CALL C GOT PLAYER PLATFORM
 
 	I HAS A FRAMES ITZ GOT\
-		FRAME "bot1" 0\
-		FRAME "bot2" 1\
-		FRAME "bot3" 2
+		FRAME "walk1" 0\
+		FRAME "walk2" 1\
+		FRAME "walk3" 2\
+		FRAME "walk4" 3\
+		FRAME "walk5" 4
 
 	I HAS A WALK
 		CREATE
@@ -397,7 +403,7 @@ HOW DUZ I CREATEGAME?
 	I HAS A IDLE
 		CREATE
 			FIELD "key" "idle"
-			FIELD "frames" GOT FRAME "bot" 0
+			FIELD "frames" GOT FRAME "idle" 0
 			FIELD "frameRate" 0
 			FIELD "repeat" 1
 	IDLE ITZ OBJ
